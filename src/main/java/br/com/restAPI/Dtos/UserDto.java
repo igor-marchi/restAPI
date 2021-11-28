@@ -1,4 +1,4 @@
-package br.com.restAPI.Dtos;
+package br.com.restAPI.dtos;
 
 import br.com.restAPI.models.User;
 import lombok.Data;
