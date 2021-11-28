@@ -1,4 +1,4 @@
-package br.com.restAPI.models;
+package br.com.restAPI.domain.models;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -1,10 +1,10 @@
-package br.com.restAPI.repository;
+package br.com.restAPI.domain.repository;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import br.com.restAPI.models.User;
+import br.com.restAPI.domain.models.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 

@@ -1,9 +1,9 @@
 package br.com.restAPI.controller;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.restAPI.dtos.UserDto;
-import br.com.restAPI.models.User;
-import br.com.restAPI.repository.UserRepository;
+import br.com.restAPI.domain.models.User;
+import br.com.restAPI.domain.repository.UserRepository;
 
 @RestController
 @RequestMapping("users")
@@ -23,16 +23,24 @@ public class UserController {
   @Autowired
   private UserRepository userRepository;
 
+  @Autowired
+  private ModelMapper modelMapper;
+
   @GetMapping()
   public List<UserDto> getAllUser() {
-    List<User> users = this.userRepository.findAll();
+    var users = this.userRepository.findAll();
 
-    return users.stream().map(UserDto::new).collect(Collectors.toList());
+    var userDto = users
+        .stream()
+        .map(user -> modelMapper.map(user, UserDto.class))
+        .collect(Collectors.toList());
+
+    return userDto;
   }
 
   @GetMapping("{id}")
   public User getOne(@PathVariable Long id) {
-    Optional<User> userFind = this.userRepository.findById(id);
+    var userFind = this.userRepository.findById(id);
     if (userFind.isPresent()) {
       return userFind.get();
     }
@@ -42,7 +50,7 @@ public class UserController {
 
   @GetMapping("/greater/{id}")
   public List<User> getGreaterThan(@PathVariable Long id) {
-    List<User> usersFind = this.userRepository.findByIdGreaterThan(id);
+    var usersFind = this.userRepository.findByIdGreaterThan(id);
     return usersFind;
   }
 
